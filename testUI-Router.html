@@ -1,0 +1,135 @@
+<html>
+<head>
+    <script src="./angular.min.js"></script>
+    <script src="./angular-ui-router.js"></script>
+    <script src="./test-ui-router-app.js"></script>
+</head>
+<body ng-app="TestUIRouterApp">
+    <h1> Dalsaram Replacer</h1>
+    <p>
+        <a href="#/">Home</a> | 
+        <a href="#/news">News</a> |
+        <a href="#/job">Job</a>
+    </p>
+    <ui-view></ui-view>
+    
+    <script type="text/ng-template" id="/home.html">
+     <h1> Home</h1>
+     <p> 
+        Something goes here   - {{date}}  
+    </p>
+    </script>
+    
+    <script type="text/ng-template" id="/news.html">
+        <h1> News</h1>
+        <p>
+            Dailys news
+        </p>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Author</th>
+                <th>Date Posted</th>
+            </tr>
+            <tr ng-repeat="news in listNews">
+                <td><a href="{{news.url}}">{{news.name}}</a></td>
+                <td>{{news.author}}</td>
+                <td>{{news.datePosted}}</td>
+            </tr>
+        </table>
+        
+        <form ng-submit="addNews()">
+            News Title: <input type="text" ng-model="name" placeholder="News Title" />
+            News Link: <input type="text" ng-model="url" placeholder="News Address" />
+            News Author: <input type="text" ng-model="author" placeholder="News Author" />
+            
+            <input type="submit" value="Post" />
+        </form>
+    </script>
+
+    
+    <script type="text/ng-template" id="/job.html">
+        <h1>Jobs</h1>
+        <p>
+            Something about job posting 
+        </p>
+        
+        <table width="100%" border="1">
+            <tr>
+                <th>포지션</th>
+                <th>설명</th>
+                <th>작성자</th>
+                <th>조회수</th>
+                <th>댓글</th>
+                <th>날짜</th>
+            </tr>
+            <tr ng-repeat="job in listJobs">
+                <td><a href="#/readJob/{{$index}}">{{job.title}}</a></td>
+                <td>{{job.description}}</td>
+                <td>{{job.author}}</td>
+                <td>{{job.numView}}</td>
+                <td>{{job.comments.length}}</td>
+                <td>{{job.datePosted}}</td>
+            </tr>
+        </table>
+        
+        <hr />
+        <h3>Have A Job?</h3>
+        <form ng-submit="addJob()">
+            <table>
+                <tr>
+                    <th>포지션</th> 
+                    <th><input type="text" ng-model="title" /></th>
+                </tr>
+                <tr>
+                    <td>설명</td> 
+                    <td><input type="text" ng-model="description" /></td>
+                </tr>
+                <tr>
+                    <td>작성자</td> 
+                    <td><input type="text" ng-model="author" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Post Job" /></td>
+                </tr>
+            </table>
+            
+        </form>
+     
+    </script>
+    
+    <script type="text/ng-template" id="/readJob.html">
+         <table border="1">
+                <tr>
+                    <th>포지션</th> 
+                    <th>{{jobPost.title}}</th>
+                </tr>
+                <tr>
+                    <td>설명</td> 
+                    <td>{{jobPost.description}}</td>
+                </tr>
+                <tr>
+                    <td>작성자</td> 
+                    <td>{{jobPost.author}}</td>
+                </tr>
+                <tr>
+                    <td>조회수</td>
+                    <td>{{jobPost.numView}}</td>
+                </tr>
+                <tr>
+                    <td>날짜</td>
+                    <td>{{jobPost.datePosted}}</td>
+                </tr>
+         </table>
+        <hr />
+        <h3> Comments</h3>
+        <ol>
+            <li ng-repeat="comment in jobPost.comments">
+                {{comment.text}} - {{comment.author}}
+            </li>
+        </ol>
+    </script>
+    
+</body>
+</html>
